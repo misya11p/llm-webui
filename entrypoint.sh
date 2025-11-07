@@ -9,8 +9,12 @@ case "$1" in
   stop)
     docker compose down
     ;;
+  restart)
+    docker compose down
+    docker compose up -d
+    ;;
   *)
-    echo "Usage: $0 {run|stop}"
+    echo "Usage: $0 {run|stop|restart}"
     exit 1
     ;;
 esac
