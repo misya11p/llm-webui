@@ -3,7 +3,7 @@
 cd "$(dirname "$0")" || exit 1
 
 case "$1" in
-  run)
+  start)
     docker compose up -d
     ;;
   stop)
@@ -14,7 +14,7 @@ case "$1" in
     docker compose up -d
     ;;
   *)
-    echo "Usage: $0 {run|stop|restart}"
+    echo "Usage: $0 {start|stop|restart}"
     exit 1
     ;;
 esac
