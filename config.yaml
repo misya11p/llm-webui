@@ -1,7 +1,6 @@
 model_list:
 
   # OpenAI ChatGPT Models
-
   # - model_name: GPT-5
   #   litellm_params:
   #     model: openai/gpt-5
@@ -43,6 +42,13 @@ model_list:
     litellm_params:
       model: anthropic/claude-haiku-4-5
       api_key: os.environ/ANTHROPIC_API_KEY
+
+  # PLaMo Models
+  - model_name: PLaMo 2.1 Prime
+    litellm_params:
+      model: openai/plamo-2.1-prime
+      api_key: os.environ/PLAMO_API_KEY
+      api_base: https://api.platform.preferredai.jp/v1
 
   # OpenRouter Models
   - model_name: GPT-5
