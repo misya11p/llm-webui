@@ -13,8 +13,13 @@ case "$1" in
     docker compose down
     docker compose up -d
     ;;
+  update)
+    docker compose down
+    docker compose pull
+    docker compose up -d
+    ;;
   *)
-    echo "Usage: $0 {start|stop|restart}"
+    echo "Usage: $0 {start|stop|restart|update}"
     exit 1
     ;;
 esac
