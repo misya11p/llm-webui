@@ -52,6 +52,11 @@ model_list:
 
   # OpenRouter Models
   ## GPT Models
+  - model_name: GPT-5 Chat
+    litellm_params:
+      model: openrouter/openai/gpt-5-chat
+      api_key: os.environ/OPENROUTER_API_KEY
+
   - model_name: GPT-5
     litellm_params:
       model: openrouter/openai/gpt-5
@@ -134,6 +139,12 @@ model_list:
   - model_name: GLM 4.5 Air (Free)
     litellm_params:
       model: openrouter/z-ai/glm-4.5-air:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  # xAI Models
+  - model_name: xAI Grok 5
+    litellm_params:
+      model: x-ai/grok-4-fast
       api_key: os.environ/OPENROUTER_API_KEY
 
   # Ollama Models
