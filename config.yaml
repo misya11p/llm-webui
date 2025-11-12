@@ -136,6 +136,11 @@ model_list:
       api_key: os.environ/OPENROUTER_API_KEY
 
   ## Z-AI Models
+  - model_name: GLM 4.6
+    litellm_params:
+      model: openrouter/z-ai/glm-4.6
+      api_key: os.environ/OPENROUTER_API_KEY
+
   - model_name: GLM 4.5 Air (Free)
     litellm_params:
       model: openrouter/z-ai/glm-4.5-air:free
@@ -144,7 +149,13 @@ model_list:
   # xAI Models
   - model_name: xAI Grok 5
     litellm_params:
-      model: x-ai/grok-4-fast
+      model: openrouter/x-ai/grok-4-fast
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  # Mistral Models
+  - model_name: Mistral Small 3.2
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-3.2-24b-instruct
       api_key: os.environ/OPENROUTER_API_KEY
 
   # Ollama Models
