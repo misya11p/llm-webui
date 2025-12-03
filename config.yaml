@@ -114,6 +114,11 @@ model_list:
       api_key: os.environ/OPENROUTER_API_KEY
 
   # DeepSeek Models
+  - model_name: DeepSeek V3.2 Speciale
+    litellm_params:
+      model: openrouter/deepseek/deepseek-v3.2-speciale
+      api_key: os.environ/OPENROUTER_API_KEY
+
   - model_name: DeepSeek V3.2 Exp
     litellm_params:
       model: openrouter/deepseek/deepseek-v3.2-exp
@@ -127,11 +132,6 @@ model_list:
   - model_name: DeepSeek R1 (Free)
     litellm_params:
       model: openrouter/deepseek/deepseek-r1:free
-      api_key: os.environ/OPENROUTER_API_KEY
-
-  - model_name: DeepSeek R1T2 Chimera (Free)
-    litellm_params:
-      model: openrouter/deepseek/deepseek-r1t2-chimera:free
       api_key: os.environ/OPENROUTER_API_KEY
 
   ## Kimi Models
