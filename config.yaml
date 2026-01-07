@@ -129,9 +129,9 @@ model_list:
       api_key: os.environ/OPENROUTER_API_KEY
 
   # MiniMax Models
-  - model_name: MiniMax M2
+  - model_name: MiniMax M2.1
     litellm_params:
-      model: openrouter/minimax/minimax-m2
+      model: openrouter/minimax/minimax-m2.1
       api_key: os.environ/OPENROUTER_API_KEY
 
   # Z-AI Models
