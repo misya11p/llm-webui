@@ -59,13 +59,13 @@ model_list:
   # Google Gemini Models
   - model_name: Gemini 3 Pro Preview
     litellm_params:
-      model: gemini/gemini-3-pro-preview
-      api_key: os.environ/GEMINI_API_KEY
+      model: openrouter/google/gemini-3-pro-preview
+      api_key: os.environ/OPENROUTER_API_KEY
 
   - model_name: Gemini 3 Flash Preview
     litellm_params:
-      model: gemini/gemini-3-flash-preview
-      api_key: os.environ/GEMINI_API_KEY
+      model: openrouter/google/gemini-3-flash-preview
+      api_key: os.environ/OPENROUTER_API_KEY
 
   # Anthropic Claude Models
   - model_name: Claude Opus 4.5
@@ -85,6 +85,12 @@ model_list:
 
   # PLaMo Models
   - model_name: PLaMo 2.1 Prime
+    litellm_params:
+      model: openai/plamo-2.1-prime
+      api_key: os.environ/PLAMO_API_KEY
+      api_base: https://api.platform.preferredai.jp/v1
+
+  - model_name: PLaMo 2.1 Prime (Customized)
     litellm_params:
       model: openai/plamo-2.1-prime
       api_key: os.environ/PLAMO_API_KEY
