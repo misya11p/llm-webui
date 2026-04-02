@@ -20,7 +20,7 @@
     );
   };
 
-  const getNeighborAnchorHref = (targetAnchor) => {
+  const getNeighborAnchor = (targetAnchor) => {
     if (!targetAnchor) return null;
 
     const sidebar = document.querySelector('#sidebar');
@@ -35,8 +35,7 @@
     const candidate = nextAnchor || fallbackPrevAnchor;
     if (!candidate) return null;
 
-    const href = candidate.getAttribute('href') || '';
-    return href || null;
+    return candidate;
   };
 
   const getMoreButton = () => {
@@ -78,7 +77,7 @@
 
   const runQuickDelete = async () => {
     const targetAnchor = getTargetAnchor();
-    const nextHref = getNeighborAnchorHref(targetAnchor);
+    const neighborAnchor = getNeighborAnchor(targetAnchor);
 
     const moreButton = getMoreButton();
     if (!moreButton) return;
@@ -94,9 +93,9 @@
     if (!confirmButton) return;
     confirmButton.click();
 
-    if (!nextHref) return;
+    if (!neighborAnchor) return;
     await wait(120);
-    window.location.assign(nextHref);
+    neighborAnchor.click();
   };
 
   const createQuickDeleteButton = () => {
