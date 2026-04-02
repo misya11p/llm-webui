@@ -4,6 +4,12 @@
   "version": "0.1.0",
   "description": "A custom UI extension",
   "host_permissions": ["http://*/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/trash.svg"],
+      "matches": ["http://*/*"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": ["http://*/*"],
