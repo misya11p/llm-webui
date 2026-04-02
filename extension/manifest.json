@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "OpenWebUI Custom UI Extension",
+  "version": "0.1.0",
+  "description": "A custom UI extension",
+  "host_permissions": ["http://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["content/inject.js"]
+    }
+  ]
+}
