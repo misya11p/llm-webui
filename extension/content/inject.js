@@ -1,18 +1,9 @@
 (() => {
-  const OUTLINE = '2px solid red';
-  const OUTLINE_OFFSET = '2px';
-
   const isLikelyOpenWebUI = () => {
     return Boolean(document.querySelector('#sidebar'));
   };
 
   const normalizeText = (value) => value.replace(/\s+/g, ' ').trim();
-
-  const highlight = (el) => {
-    if (!el) return;
-    el.style.outline = OUTLINE;
-    el.style.outlineOffset = OUTLINE_OFFSET;
-  };
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -82,14 +73,6 @@
     confirmButton.click();
   };
 
-  const highlightTargetElements = () => {
-    if (!isLikelyOpenWebUI()) return;
-
-    highlight(getMoreButton());
-    highlight(getDeleteMenuItem());
-    highlight(getConfirmButton());
-  };
-
   const createQuickDeleteButton = () => {
     const button = document.createElement('button');
     button.type = 'button';
@@ -135,13 +118,10 @@
       const button = createQuickDeleteButton();
       el.insertBefore(button, el.firstChild);
     });
-
-    highlightTargetElements();
   };
 
   const observer = new MutationObserver(() => {
     injectButtons();
-    highlightTargetElements();
   });
   observer.observe(document.documentElement, {
     childList: true,
@@ -149,5 +129,4 @@
   });
 
   injectButtons();
-  highlightTargetElements();
 })();
