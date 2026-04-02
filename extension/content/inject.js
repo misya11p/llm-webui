@@ -1,4 +1,10 @@
 (() => {
+  const ALLOWED_ORIGIN = 'http://localhost:50011';
+
+  if (window.location.origin !== ALLOWED_ORIGIN) {
+    return;
+  }
+
   const isLikelyOpenWebUI = () => {
     return Boolean(document.querySelector('#sidebar'));
   };
