@@ -18,17 +18,17 @@
     if (!isLikelyOpenWebUI()) return;
 
     const sidebar = document.querySelector('#sidebar');
-    if (sidebar) {
-      const currentPath = window.location.pathname;
-      const anchors = Array.from(sidebar.querySelectorAll('a[href]')).filter((anchor) => {
-        const href = anchor.getAttribute('href') || '';
-        return href.includes(currentPath);
-      });
+    if (!sidebar) return;
 
-      anchors.forEach((anchor) => {
-        highlight(anchor.querySelector('button'));
-      });
-    }
+    const currentPath = window.location.pathname;
+    const targetAnchors = Array.from(sidebar.querySelectorAll('a[href]')).filter((anchor) => {
+      const href = anchor.getAttribute('href') || '';
+      return href === currentPath;
+    });
+
+    targetAnchors.forEach((anchor) => {
+      highlight(anchor);
+    });
 
     const menus = Array.from(document.querySelectorAll('div[role="menu"]'));
     menus.forEach((menu) => {
