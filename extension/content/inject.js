@@ -14,44 +14,80 @@
     el.style.outlineOffset = OUTLINE_OFFSET;
   };
 
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const getTargetAnchor = () => {
+    const sidebar = document.querySelector('#sidebar');
+    if (!sidebar) return null;
+
+    const currentPath = window.location.pathname;
+    return (
+      Array.from(sidebar.querySelectorAll('a[href]')).find((anchor) => {
+        const href = anchor.getAttribute('href') || '';
+        return href === currentPath;
+      }) || null
+    );
+  };
+
+  const getMoreButton = () => {
+    const targetAnchor = getTargetAnchor();
+    if (!targetAnchor) return null;
+
+    const parent = targetAnchor.parentElement;
+    if (!parent) return null;
+
+    const siblingDiv = Array.from(parent.children).find(
+      (child) => child !== targetAnchor && child.tagName === 'DIV'
+    );
+    if (!siblingDiv) return null;
+
+    return siblingDiv.querySelector('button');
+  };
+
+  const getDeleteMenuItem = () => {
+    const menus = Array.from(document.querySelectorAll('div[role="menu"]'));
+    for (const menu of menus) {
+      const item = Array.from(menu.querySelectorAll('div[role="menuitem"]')).find(
+        (menuItem) => normalizeText(menuItem.textContent || '') === '削除'
+      );
+      if (item) return item;
+    }
+    return null;
+  };
+
+  const getConfirmButton = () => {
+    const modals = Array.from(document.querySelectorAll('div.z-99999999'));
+    for (const modal of modals) {
+      const button = Array.from(modal.querySelectorAll('button')).find(
+        (modalButton) => normalizeText(modalButton.textContent || '') === '確認'
+      );
+      if (button) return button;
+    }
+    return null;
+  };
+
+  const runQuickDelete = async () => {
+    const moreButton = getMoreButton();
+    if (!moreButton) return;
+    moreButton.click();
+
+    await wait(120);
+    const deleteItem = getDeleteMenuItem();
+    if (!deleteItem) return;
+    deleteItem.click();
+
+    await wait(120);
+    const confirmButton = getConfirmButton();
+    if (!confirmButton) return;
+    confirmButton.click();
+  };
+
   const highlightTargetElements = () => {
     if (!isLikelyOpenWebUI()) return;
 
-    const sidebar = document.querySelector('#sidebar');
-    if (!sidebar) return;
-
-    const currentPath = window.location.pathname;
-    const targetAnchor = Array.from(sidebar.querySelectorAll('a[href]')).find((anchor) => {
-      const href = anchor.getAttribute('href') || '';
-      return href === currentPath;
-    });
-    if (!targetAnchor) return;
-
-    const parent = targetAnchor.parentElement;
-    if (!parent) return;
-
-    const siblingDivs = Array.from(parent.children).filter(
-      (child) => child !== targetAnchor && child.tagName === 'DIV'
-    );
-    siblingDivs.forEach((div) => {
-      highlight(div.querySelector('button'));
-    });
-
-    const menus = Array.from(document.querySelectorAll('div[role="menu"]'));
-    menus.forEach((menu) => {
-      const deleteItem = Array.from(menu.querySelectorAll('div[role="menuitem"]')).find(
-        (item) => normalizeText(item.textContent || '') === '削除'
-      );
-      highlight(deleteItem);
-    });
-
-    const modals = Array.from(document.querySelectorAll('div.z-99999999'));
-    modals.forEach((modal) => {
-      const confirmButton = Array.from(modal.querySelectorAll('button')).find(
-        (button) => normalizeText(button.textContent || '') === '確認'
-      );
-      highlight(confirmButton);
-    });
+    highlight(getMoreButton());
+    highlight(getDeleteMenuItem());
+    highlight(getConfirmButton());
   };
 
   const createQuickDeleteButton = () => {
@@ -81,10 +117,10 @@
     icon.style.pointerEvents = 'none';
 
     button.appendChild(icon);
-    button.addEventListener('click', (event) => {
+    button.addEventListener('click', async (event) => {
       event.preventDefault();
       event.stopPropagation();
-      alert('quick delete button clicked (test)');
+      await runQuickDelete();
     });
 
     return button;
