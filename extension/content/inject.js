@@ -127,8 +127,8 @@
     const icon = document.createElement('img');
     icon.src = browser.runtime.getURL('content/trash.svg');
     icon.alt = '';
-    icon.width = 16;
-    icon.height = 16;
+    icon.width = 20;
+    icon.height = 20;
     icon.style.opacity = '0.75';
     icon.style.pointerEvents = 'none';
 
