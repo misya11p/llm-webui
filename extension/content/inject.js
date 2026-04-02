@@ -21,13 +21,20 @@
     if (!sidebar) return;
 
     const currentPath = window.location.pathname;
-    const targetAnchors = Array.from(sidebar.querySelectorAll('a[href]')).filter((anchor) => {
+    const targetAnchor = Array.from(sidebar.querySelectorAll('a[href]')).find((anchor) => {
       const href = anchor.getAttribute('href') || '';
       return href === currentPath;
     });
+    if (!targetAnchor) return;
 
-    targetAnchors.forEach((anchor) => {
-      highlight(anchor);
+    const parent = targetAnchor.parentElement;
+    if (!parent) return;
+
+    const siblingDivs = Array.from(parent.children).filter(
+      (child) => child !== targetAnchor && child.tagName === 'DIV'
+    );
+    siblingDivs.forEach((div) => {
+      highlight(div.querySelector('button'));
     });
 
     const menus = Array.from(document.querySelectorAll('div[role="menu"]'));
