@@ -1,6 +1,50 @@
 (() => {
+  const OUTLINE = '2px solid red';
+  const OUTLINE_OFFSET = '2px';
+
   const isLikelyOpenWebUI = () => {
     return Boolean(document.querySelector('#sidebar'));
+  };
+
+  const normalizeText = (value) => value.replace(/\s+/g, ' ').trim();
+
+  const highlight = (el) => {
+    if (!el) return;
+    el.style.outline = OUTLINE;
+    el.style.outlineOffset = OUTLINE_OFFSET;
+  };
+
+  const highlightTargetElements = () => {
+    if (!isLikelyOpenWebUI()) return;
+
+    const sidebar = document.querySelector('#sidebar');
+    if (sidebar) {
+      const currentPath = window.location.pathname;
+      const anchors = Array.from(sidebar.querySelectorAll('a[href]')).filter((anchor) => {
+        const href = anchor.getAttribute('href') || '';
+        return href.includes(currentPath);
+      });
+
+      anchors.forEach((anchor) => {
+        highlight(anchor.querySelector('button'));
+      });
+    }
+
+    const menus = Array.from(document.querySelectorAll('div[role="menu"]'));
+    menus.forEach((menu) => {
+      const deleteItem = Array.from(menu.querySelectorAll('div[role="menuitem"]')).find(
+        (item) => normalizeText(item.textContent || '') === '削除'
+      );
+      highlight(deleteItem);
+    });
+
+    const modals = Array.from(document.querySelectorAll('div.z-99999999'));
+    modals.forEach((modal) => {
+      const confirmButton = Array.from(modal.querySelectorAll('button')).find(
+        (button) => normalizeText(button.textContent || '') === '確認'
+      );
+      highlight(confirmButton);
+    });
   };
 
   const createQuickDeleteButton = () => {
@@ -48,13 +92,19 @@
       const button = createQuickDeleteButton();
       el.insertBefore(button, el.firstChild);
     });
+
+    highlightTargetElements();
   };
 
-  const observer = new MutationObserver(injectButtons);
+  const observer = new MutationObserver(() => {
+    injectButtons();
+    highlightTargetElements();
+  });
   observer.observe(document.documentElement, {
     childList: true,
     subtree: true
   });
 
   injectButtons();
+  highlightTargetElements();
 })();
