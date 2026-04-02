@@ -82,6 +82,8 @@
   };
 
   const runQuickDelete = async () => {
+    if (!window.location.pathname.startsWith('/c/')) return;
+
     const targetAnchor = getTargetAnchor();
     const neighborAnchor = getNeighborAnchor(targetAnchor);
 
