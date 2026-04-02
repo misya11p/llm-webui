@@ -20,6 +20,25 @@
     );
   };
 
+  const getNeighborAnchorHref = (targetAnchor) => {
+    if (!targetAnchor) return null;
+
+    const sidebar = document.querySelector('#sidebar');
+    if (!sidebar) return null;
+
+    const anchors = Array.from(sidebar.querySelectorAll('a[href]'));
+    const currentIndex = anchors.indexOf(targetAnchor);
+    if (currentIndex < 0) return null;
+
+    const nextAnchor = anchors[currentIndex + 1];
+    const fallbackPrevAnchor = anchors[currentIndex - 1];
+    const candidate = nextAnchor || fallbackPrevAnchor;
+    if (!candidate) return null;
+
+    const href = candidate.getAttribute('href') || '';
+    return href || null;
+  };
+
   const getMoreButton = () => {
     const targetAnchor = getTargetAnchor();
     if (!targetAnchor) return null;
@@ -58,6 +77,9 @@
   };
 
   const runQuickDelete = async () => {
+    const targetAnchor = getTargetAnchor();
+    const nextHref = getNeighborAnchorHref(targetAnchor);
+
     const moreButton = getMoreButton();
     if (!moreButton) return;
     moreButton.click();
@@ -71,6 +93,10 @@
     const confirmButton = getConfirmButton();
     if (!confirmButton) return;
     confirmButton.click();
+
+    if (!nextHref) return;
+    await wait(120);
+    window.location.assign(nextHref);
   };
 
   const createQuickDeleteButton = () => {
