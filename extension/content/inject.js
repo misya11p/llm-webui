@@ -110,8 +110,8 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.dataset.owuiQuickDeleteButton = '1';
-    button.title = 'クイック削除（テスト）';
-    button.setAttribute('aria-label', 'クイック削除（テスト）');
+    button.title = 'クイック削除';
+    button.setAttribute('aria-label', 'クイック削除');
     button.style.display = 'inline-flex';
     button.style.alignItems = 'center';
     button.style.justifyContent = 'center';
@@ -145,7 +145,7 @@
   const injectButtons = () => {
     if (!isLikelyOpenWebUI()) return;
 
-    const targets = document.querySelectorAll('div.self-start');
+    const targets = document.querySelectorAll('nav div.self-start');
     targets.forEach((el) => {
       if (el.querySelector('[data-owui-quick-delete-button="1"]')) return;
       const button = createQuickDeleteButton();
