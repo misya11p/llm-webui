@@ -12,7 +12,6 @@ services:
       - OPENAI_API_KEY=sk-1234
     depends_on:
       - litellm
-      - open-terminal
     volumes:
       - ./data/openwebui:/app/backend/data
     restart: always
