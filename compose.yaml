@@ -1,4 +1,24 @@
 services:
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "50011:8080"
+    environment:
+      - WEBUI_AUTH=false
+      - ENABLE_OLLAMA_API=true
+      - OPENAI_API_BASE_URL=http://litellm:4000/v1
+      - OPENAI_API_KEY=sk-1234
+    depends_on:
+      - litellm
+      - open-terminal
+    volumes:
+      - ./data/openwebui:/app/backend/data
+    restart: always
+    networks:
+      - llmnet
+
   litellm:
     build:
       context: .
@@ -56,35 +76,6 @@ services:
       - "--storage.tsdb.path=/prometheus"
       - "--storage.tsdb.retention.time=15d"
     restart: always
-    networks:
-      - llmnet
-
-  openwebui:
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: open-webui
-    ports:
-      - "50011:8080"
-    environment:
-      - WEBUI_AUTH=false
-      - ENABLE_OLLAMA_API=true
-      - OPENAI_API_BASE_URL=http://litellm:4000/v1
-      - OPENAI_API_KEY=sk-1234
-    depends_on:
-      - litellm
-      - open-terminal
-    volumes:
-      - ./data/openwebui:/app/backend/data
-    restart: always
-    networks:
-      - llmnet
-
-  open-terminal:
-    image: ghcr.io/open-webui/open-terminal:latest
-    restart: unless-stopped
-    volumes:
-      - ./data/open-terminal:/home/user
-    environment:
-      - OPEN_TERMINAL_API_KEY=secret
     networks:
       - llmnet
 
