@@ -1,46 +1,14 @@
 services:
-  litellm:
-    build:
-      context: .
-      args:
-        target: runtime
-    image: ghcr.io/berriai/litellm:main-stable
+  bifrost:
+    image: maximhq/bifrost:latest
     volumes:
-      - ./config.yaml:/app/config.yaml
-    command:
-      - "--config=/app/config.yaml"
+      - ./data/bifrost:/app/data
     ports:
-      - "50012:4000"
-    environment:
-      DATABASE_URL: "postgresql://llmproxy:dbpassword9090@db:5432/litellm"
-      STORE_MODEL_IN_DB: "True"
+      - "50012:8080"
     env_file:
       - .env
     restart: always
-    container_name: litellm_app
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - llmnet
-
-  db:
-    image: postgres:16
-    restart: always
-    container_name: litellm_db
-    environment:
-      POSTGRES_DB: litellm
-      POSTGRES_USER: llmproxy
-      POSTGRES_PASSWORD: dbpassword9090
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
-      interval: 1s
-      timeout: 5s
-      retries: 10
+    container_name: bifrost_app
     networks:
       - llmnet
 
@@ -67,10 +35,10 @@ services:
     environment:
       - WEBUI_AUTH=false
       - ENABLE_OLLAMA_API=true
-      - OPENAI_API_BASE_URL=http://litellm:4000/v1
-      - OPENAI_API_KEY=sk-1234
+      - OPENAI_API_BASE_URL=http://bifrost:8080/v1
+      - OPENAI_API_KEY=sk-bifrost
     depends_on:
-      - litellm
+      - bifrost
       - open-terminal
     volumes:
       - ./data/openwebui:/app/backend/data
@@ -95,5 +63,3 @@ networks:
 volumes:
   prometheus_data:
     driver: local
-  postgres_data:
-    name: litellm_postgres_data
