@@ -9,33 +9,34 @@ services:
       - WEBUI_AUTH=false
       - OPENAI_API_BASE_URL=http://bifrost:8080/v1
       - OPENAI_API_KEY=sk-secret
-    depends_on:
-      - bifrost
     volumes:
       - ./data/openwebui:/app/backend/data
+    depends_on:
+      - bifrost
     restart: always
     networks:
       - llmnet
 
   bifrost:
     image: maximhq/bifrost:latest
+    container_name: bifrost_app
+    ports:
+      - "50012:8080"
     volumes:
       - ./config.json:/app/config.json
       - ./data/bifrost:/app/data
-    ports:
-      - "50012:8080"
     restart: always
-    container_name: bifrost_app
     networks:
       - llmnet
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "50013:9090"
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-    ports:
-      - "50013:9090"
     command:
       - "--config.file=/etc/prometheus/prometheus.yaml"
       - "--storage.tsdb.path=/prometheus"
