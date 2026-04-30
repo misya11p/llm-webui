@@ -11,15 +11,26 @@
       "is_enabled": true,
       "admin_username": "env.BIFROST_ADMIN_USERNAME",
       "admin_password": "env.BIFROST_ADMIN_PASSWORD",
-      "disable_auth_on_inference": false
-    }
+      "disable_auth_on_inference": true
+    },
+    "virtual_keys": [
+      {
+        "id": "vk-main",
+        "name": "Main API Key",
+        "value": "env.BIFROST_VK_MAIN",
+        "description": "Main API key",
+        "is_active": true
+      }
+    ]
   },
   "config_store": {
     "enabled": true,
-    "type": "sqlite"
+    "type": "sqlite",
+    "config": { "path": "./config.db" }
   },
   "logs_store": {
     "enabled": true,
-    "type": "sqlite"
+    "type": "sqlite",
+    "config": { "path": "./logs.db" }
   }
 }

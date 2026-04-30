@@ -1,6 +1,8 @@
 #!/bin/bash
 
 cd "$(dirname "$0")" || exit 1
+mkdir -p data/bifrost
+cp config.json data/bifrost/config.json
 
 case "$1" in
   start)

@@ -5,12 +5,12 @@ services:
     container_name: open-webui
     ports:
       - "50011:8080"
+    volumes:
+      - ./data/openwebui:/app/backend/data
     environment:
       - WEBUI_AUTH=false
       - OPENAI_API_BASE_URL=http://bifrost:8080/v1
       - OPENAI_API_KEY=sk-secret
-    volumes:
-      - ./data/openwebui:/app/backend/data
     depends_on:
       - bifrost
     restart: always
@@ -23,8 +23,9 @@ services:
     ports:
       - "50012:8080"
     volumes:
-      - ./config.json:/app/config.json
       - ./data/bifrost:/app/data
+    env_file:
+      - .env
     restart: always
     networks:
       - llmnet
