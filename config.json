@@ -8,7 +8,7 @@
   },
   "governance": {
     "auth_config": {
-      "is_enabled": true,
+      "is_enabled": false,
       "admin_username": "env.BIFROST_ADMIN_USERNAME",
       "admin_password": "env.BIFROST_ADMIN_PASSWORD",
       "disable_auth_on_inference": true
