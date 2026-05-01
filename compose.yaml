@@ -5,71 +5,40 @@ services:
     container_name: open-webui
     ports:
       - "50011:8080"
-    environment:
-      - WEBUI_AUTH=false
-      - ENABLE_OLLAMA_API=true
-      - OPENAI_API_BASE_URL=http://litellm:4000/v1
-      - OPENAI_API_KEY=sk-1234
-    depends_on:
-      - litellm
     volumes:
       - ./data/openwebui:/app/backend/data
+    environment:
+      - WEBUI_AUTH=false
+      - OPENAI_API_BASE_URL=http://bifrost:8080/v1
+      - OPENAI_API_KEY=sk-secret
+    depends_on:
+      - bifrost
     restart: always
     networks:
       - llmnet
 
-  litellm:
-    build:
-      context: .
-      args:
-        target: runtime
-    image: ghcr.io/berriai/litellm:main-stable
-    volumes:
-      - ./config.yaml:/app/config.yaml
-    command:
-      - "--config=/app/config.yaml"
+  bifrost:
+    image: maximhq/bifrost
+    container_name: bifrost
     ports:
-      - "50012:4000"
-    environment:
-      DATABASE_URL: "postgresql://llmproxy:dbpassword9090@db:5432/litellm"
-      STORE_MODEL_IN_DB: "True"
+      - "50012:8080"
+    volumes:
+      - ./data/bifrost:/app/db
+      - ./config.json:/app/data/config.json
     env_file:
       - .env
     restart: always
-    container_name: litellm_app
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - llmnet
-
-  db:
-    image: postgres:16
-    restart: always
-    container_name: litellm_db
-    environment:
-      POSTGRES_DB: litellm
-      POSTGRES_USER: llmproxy
-      POSTGRES_PASSWORD: dbpassword9090
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
-      interval: 1s
-      timeout: 5s
-      retries: 10
     networks:
       - llmnet
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "50013:9090"
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-    ports:
-      - "50013:9090"
     command:
       - "--config.file=/etc/prometheus/prometheus.yaml"
       - "--storage.tsdb.path=/prometheus"
@@ -85,5 +54,3 @@ networks:
 volumes:
   prometheus_data:
     driver: local
-  postgres_data:
-    name: litellm_postgres_data
