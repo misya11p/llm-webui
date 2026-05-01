@@ -23,14 +23,41 @@
       }
     ]
   },
+  "providers": {
+    "openrouter": {
+      "keys": [
+        {
+          "name": "openrouter",
+          "value": "env.OPENROUTER_API_KEY",
+          "models": [
+            "~openai/gpt-mini-latest",
+            "~google/gemini-flash-latest",
+            "~anthropic/claude-sonnet-latest",
+            "~moonshotai/kimi-latest",
+            "openai/gpt-5.5",
+            "openai/gpt-5.3-chat",
+            "google/gemini-3.1-pro-preview",
+            "x-ai/grok-4.20",
+            "deepseek/deepseek-v4-flash",
+            "deepseek/deepseek-v4-pro",
+            "qwen/qwen3.6-plus",
+            "qwen/qwen3.6-35b-a3b",
+            "z-ai/glm-5.1",
+            "minimax/minimax-m2.7"
+          ],
+          "weight": 1.0
+        }
+      ]
+    }
+  },
   "config_store": {
     "enabled": true,
     "type": "sqlite",
-    "config": { "path": "./config.db" }
+    "config": { "path": "./db/config.db" }
   },
   "logs_store": {
     "enabled": true,
     "type": "sqlite",
-    "config": { "path": "./logs.db" }
+    "config": { "path": "./db/logs.db" }
   }
 }

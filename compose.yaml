@@ -18,12 +18,13 @@ services:
       - llmnet
 
   bifrost:
-    image: maximhq/bifrost:latest
-    container_name: bifrost_app
+    image: maximhq/bifrost
+    container_name: bifrost
     ports:
       - "50012:8080"
     volumes:
-      - ./data/bifrost:/app/data
+      - ./data/bifrost:/app/db
+      - ./config.json:/app/data/config.json
     env_file:
       - .env
     restart: always
