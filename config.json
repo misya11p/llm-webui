@@ -27,7 +27,7 @@
     "openrouter": {
       "keys": [
         {
-          "name": "openrouter",
+          "name": "openrouter-key",
           "value": "env.OPENROUTER_API_KEY",
           "models": [
             "openai/gpt-5.4",
@@ -51,6 +51,22 @@
           "weight": 1.0
         }
       ]
+    },
+    "plamo": {
+      "keys": [
+        {
+          "name": "plamo-key",
+          "value": "env.PLAMO_API_KEY",
+          "models": ["plamo-2.2-prime"],
+          "weight": 1.0
+        }
+      ],
+      "network_config": {
+        "base_url": "https://api.platform.preferredai.jp"
+      },
+      "custom_provider_config": {
+        "base_provider_type": "openai"
+      }
     }
   },
   "config_store": {
