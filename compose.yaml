@@ -16,6 +16,7 @@ services:
     restart: always
     networks:
       - llmnet
+    mem_limit: 512m
 
   bifrost:
     image: maximhq/bifrost
@@ -30,22 +31,7 @@ services:
     restart: always
     networks:
       - llmnet
-
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    ports:
-      - "50013:9090"
-    volumes:
-      - prometheus_data:/prometheus
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yaml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--storage.tsdb.retention.time=15d"
-    restart: always
-    networks:
-      - llmnet
+    mem_limit: 256m
 
 networks:
   llmnet:
