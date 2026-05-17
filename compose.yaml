@@ -31,7 +31,7 @@ services:
     restart: always
     networks:
       - llmnet
-    mem_limit: 256m
+    mem_limit: 128m
 
 networks:
   llmnet:
